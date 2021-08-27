@@ -7,7 +7,7 @@ public class Game {
 
 	private static Game instance;
 	private boolean isWinner;
-	
+
 	private Game() {
 		init();
 	}
@@ -20,30 +20,54 @@ public class Game {
 		}
 	}
 
+	/**
+	 * we are checking parameters then we check the box
+	 * 
+	 * @param row Number of row to place the box
+	 * @param col Number of column to place the box
+	 * @return String
+	 */
 	public String playAt(int row, int col, Box box) throws Exception {
 		if (row > 2 || col > 2) {
-			throw new Exception("Wrong column or wrong row");
+			throw new IllegalArgumentException("Wrong column or wrong row");
 		}
 		if (grid[row][col] != Box.EMPTY) {
 			throw new Exception("Box (" + row + ", " + col + ") is not empty");
 		}
 		if (box.equals(Box.EMPTY)) {
-			throw new Exception("Wrong box, can't play empty");
+			throw new IllegalArgumentException("Wrong box, can't play empty");
 		}
 		grid[row][col] = box;
 		return box.toString();
 	}
 
+	/**
+	 * used to determine if the position is a winner.
+	 *  Player will automatically win
+	 * if he can do 3 x or 3 O in a row
+	 * 
+	 * @param row Number of row to place the box
+	 * @param col Number of column to place the box
+	 * @return boolean
+	 */
 	public boolean isWinner(int row, int col) {
-		 isWinner = false;
+		isWinner = false;
+
 		// check horizontal
+		// will if the first box is empty then will check if other ones are similar
 		isWinner = (grid[row][0] == Box.EMPTY) && (grid[row][1] == grid[row][2]);
+		// will if the second box is empty then will check if other ones are similar
 		isWinner |= (grid[row][1] == Box.EMPTY) && (grid[row][0] == grid[row][2]);
+		// will if the third box is empty then will check if other ones are similar
 		isWinner |= (grid[row][2] == Box.EMPTY) && (grid[row][0] == grid[row][1]);
 		// check vertical
+		// same logic as horizontal
 		isWinner |= (grid[0][col] == Box.EMPTY) && (grid[1][col] == grid[2][col]);
 		isWinner |= (grid[1][col] == Box.EMPTY) && (grid[0][col] == grid[2][col]);
 		isWinner |= (grid[2][col] == Box.EMPTY) && (grid[0][col] == grid[1][col]);
+
+		// we are in a diagonal point only if row == col and row+vol == 2
+		// same logic as horizontal
 		// check first diagonal
 		if (row == col) {
 			isWinner |= (grid[0][0] == Box.EMPTY) && (grid[1][1] == grid[2][2]);
@@ -60,18 +84,33 @@ public class Game {
 		}
 		return isWinner;
 	}
-	public boolean getWinner(Box box) {
+
+	/**
+	 * determine if the player can win
+	 * 
+	 * @param box
+	 *
+	 * @return boolean
+	 */	
+	public boolean isWinner(Box box) {
 		for (int row = 0; row < grid.length; row++) {
 			for (int col = 0; col < grid.length; col++) {
-				if(box.equals(grid[row][col]) && isWinner(row,col)) {
+				if (box.equals(grid[row][col]) && isWinner(row, col)) {
 					return true;
 				}
 			}
-			
 		}
 		return false;
 	}
-	public boolean isDraw() {
+
+	/**
+	 * determine if nobody wins
+	 * 
+	 * @param box
+	 *
+	 * @return boolean
+	 */	
+	 public boolean isDraw() {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				if (grid[i][j] == Box.EMPTY)

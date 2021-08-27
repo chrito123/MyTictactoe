@@ -10,6 +10,7 @@ public class GameState {
 	private boolean finished;
 	private Box turn;
 	
+	//class used the save the state of the game
 	public GameState()
 	{
 		game = Game.getInstance();

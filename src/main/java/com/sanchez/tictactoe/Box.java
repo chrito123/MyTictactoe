@@ -1,7 +1,7 @@
 package com.sanchez.tictactoe;
 
 public enum Box {
-
+	
 		X{
             @Override
             public String getWinMessage(){
@@ -15,7 +15,6 @@ public enum Box {
 
 			@Override
 			public String setTurnMessage() {
-				// TODO Auto-generated method stub
 				return "Turn: O";
 			}
 		}, O{
@@ -31,7 +30,6 @@ public enum Box {
 
 			@Override
 			public String setTurnMessage() {
-				// TODO Auto-generated method stub
 				return "Turn: X";
 			}
 		}, EMPTY{

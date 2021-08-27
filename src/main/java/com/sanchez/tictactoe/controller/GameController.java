@@ -18,17 +18,24 @@ public class GameController {
 	 * against the computer, or against another human.
 	 * 
 	 * @param session
-	 * @return Spring framework View name
+	 * @return String
 	 */
 	@GetMapping(value = "/tictactoe/start")
-	public String reset(HttpSession session) {
+	public String start(HttpSession session) {
 
 		GameState gameState = new GameState();
 		putStateInSession(session, gameState);
 
 		return "New game started";
 	}
-
+	/**
+	 * Places the box in the requested position.
+	 * 
+	 * @param session 
+	 * @param row Number of row to place marker
+	 * @param col Number of column to place marker
+	 * @return String
+	 */
 	@GetMapping("/tictactoe/move")
 	public String move(HttpSession session, @RequestParam(value = "row", required = true) Integer row,
 			@RequestParam(value = "col", required = true) Integer col) throws Exception {
@@ -49,7 +56,7 @@ public class GameController {
 	}
 
 	/**
-	 * Evaluate the game board to see if a winner can be declared, or if there is a
+	 * Evaluate the game grid to see if a winner can be declared, or if there is a
 	 * draw. If neither of these conditions is detected, switch active player.
 	 * 
 	 * @param gameState
@@ -65,7 +72,7 @@ public class GameController {
 		if (game.isDraw()) {
 			gameState.setGameMessage("It's a draw!");
 			gameState.setFinished(true);
-		} else if (game.getWinner(gameState.getTurn())) {
+		} else if (game.isWinner(gameState.getTurn())) {
 			gameState.setGameMessage(
 					gameState.toString() + System.lineSeparator() + gameState.getTurn().getWinMessage());
 			gameState.setFinished(true);
@@ -73,7 +80,11 @@ public class GameController {
 			gameState.setGameMessage(gameState.toString());
 		}
 	}
-
+	/**
+	 * method to get game state in session.
+	 * 
+	 * @param session
+	 */
 	private GameState getStateFromSession(HttpSession session) {
 		GameState gameState = (GameState) session.getAttribute(GAME_STATE);
 		if (gameState == null) {
