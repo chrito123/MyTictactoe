@@ -7,6 +7,7 @@ public class GameState {
 	private String oPlayerName;
 	private String gameMessage;
 	private String turnMessage;
+	private boolean finished;
 	private Box turn;
 	
 	public GameState()
@@ -16,12 +17,19 @@ public class GameState {
 		init();
 	}
 	public void init() {
+		finished=false;
 		setxPlayerName("X Player");
 		setoPlayerName("O Player");
 		setGameMessage("");
 		setTurn(Box.X);
 		setTurnMessage("Turn: X");
 		
+	}
+	public boolean isFinished() {
+		return finished;
+	}
+	public void setFinished(boolean finished) {
+		this.finished = finished;
 	}
 	public Game getGame() {
 		return game;

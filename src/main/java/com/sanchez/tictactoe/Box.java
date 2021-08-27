@@ -21,7 +21,7 @@ public enum Box {
 		}, O{
             @Override
             public String getWinMessage(){
-				return "X player wins!";
+				return "O player wins!";
 			}
 
 			@Override
@@ -50,6 +50,10 @@ public enum Box {
 			public String setTurnMessage() {
 				// Tnothing to do cause empty will not change of empty
 				return null;
+			}
+			@Override
+			public String toString() {
+				return "&nbsp;&nbsp;&nbsp;";
 			}
 		};
 		public abstract String getWinMessage();
